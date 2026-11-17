@@ -50,10 +50,28 @@ font-size:17px;
 <p>Paste your video link here</p>
 <input type="url" placeholder="Enter video URL">
 <br>
-<button onclick="alert('Welcome to YTube Download')">
+<button onclick="detectPlatform()">
 Check Link
 </button>
 </div>
 <p>© 2026 YTube Download</p>
+<script>
+function detectPlatform() {
+ const link = document.querySelector('input').value;
+
+ if(link.includes('youtube.com') || link.includes('youtu.be')) {
+ alert('YouTube Link Detected!');
+ }
+ else if(link.includes('facebook.com') || link.includes('fb.watch')) {
+ alert('Facebook Link Detected!');
+ }
+ else if(link.includes('instagram.com')) {
+ alert('Instagram Link Detected!');
+ }
+ else {
+ alert('Please enter a valid link!');
+ }
+}
+</script> 
 </body>
 </html>
