@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,71 +6,159 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YTube Download</title>
 <style>
+*{box-sizing:border-box}
 body{
+margin:0;
 background:#101827;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 text-align:center;
-margin:0;
 }
 header{
-padding:25px;
+padding:28px 10px;
 font-size:28px;
-color:#35d6a0;
 font-weight:bold;
+color:#35d6a0;
 }
 .container{
+max-width:550px;
+margin:55px auto;
+padding:30px 20px;
 background:#1e293b;
-margin:60px 15px;
-padding:25px 15px;
-border-radius:15px;
+border-radius:16px;
+}
+h1{font-size:27px}
+p{color:#cbd5e1}
+.platforms{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin:25px 0;
+}
+.platforms button{
+padding:13px 17px;
+background:#334155;
+color:white;
+border:1px solid #475569;
+border-radius:9px;
+font-size:15px;
+}
+.platforms button.active{
+background:#16a085;
 }
 input{
-width:90%;
-padding:15px;
+width:100%;
+padding:16px;
 border:0;
-border-radius:8px;
-margin:15px 0;
+border-radius:9px;
+font-size:15px;
+margin:12px 0;
 }
-button{
+.mainbtn{
+width:100%;
+padding:15px;
 background:#16a085;
 color:white;
-padding:15px 30px;
 border:0;
-border-radius:8px;
+border-radius:9px;
 font-size:17px;
+font-weight:bold;
+}
+#message{
+margin-top:20px;
+color:#35d6a0;
+}
+footer{
+padding:25px;
+color:#94a3b8;
 }
 </style>
 </head>
 <body>
+
 <header>▶ YTube Download</header>
+
 <div class="container">
-<h2>Video Download Center</h2>
-<p>Paste your video link here</p>
-<input type="url" placeholder="Enter video URL">
-<br>
-<button onclick="detectPlatform()">
+<h1>Video Downloader</h1>
+<p>Choose platform and paste your video link</p>
+
+<div class="platforms">
+<button class="active" onclick="choose('YouTube',this)">YouTube</button>
+<button onclick="choose('Facebook',this)">Facebook</button>
+<button onclick="choose('Instagram',this)">Instagram</button>
+</div>
+
+<input id="url" type="url"
+placeholder="Paste video link here">
+
+<button class="mainbtn" onclick="checkLink()">
 Check Link
 </button>
-</div>
-<p>© 2026 YTube Download</p>
-<script>
-function detectPlatform() {
- const link = document.querySelector('input').value;
 
- if(link.includes('youtube.com') || link.includes('youtu.be')) {
- alert('YouTube Link Detected!');
- }
- else if(link.includes('facebook.com') || link.includes('fb.watch')) {
- alert('Facebook Link Detected!');
- }
- else if(link.includes('instagram.com')) {
- alert('Instagram Link Detected!');
- }
- else {
- alert('Please enter a valid link!');
- }
+<div id="message"></div>
+</div>
+
+<footer>
+© 2026 YTube Download
+<br><br>
+Only use videos you own or have permission to download.
+</footer>
+
+<script>
+let platform="YouTube";
+
+function choose(name,button){
+platform=name;
+document.querySelectorAll('.platforms button')
+.forEach(b=>b.classList.remove('active'));
+button.classList.add('active');
+document.getElementById('message').innerText=
+name+" selected";
 }
-</script> 
+
+function checkLink(){
+let link=document.getElementById('url').value.trim();
+let message=document.getElementById('message');
+
+if(!link){
+message.innerText="Please paste a video link!";
+return;
+}
+
+try{
+let url=new URL(link);
+if(url.protocol!=="https:" && url.protocol!=="http:"){
+throw new Error();
+}
+
+let host=url.hostname.toLowerCase();
+let valid=false;
+
+if(platform==="YouTube"){
+valid=host==="youtube.com" ||
+host.endsWith(".youtube.com") ||
+host==="youtu.be";
+}
+else if(platform==="Facebook"){
+valid=host==="facebook.com" ||
+host.endsWith(".facebook.com") ||
+host==="fb.watch";
+}
+else if(platform==="Instagram"){
+valid=host==="instagram.com" ||
+host.endsWith(".instagram.com");
+}
+
+message.innerText=valid
+? platform+" link detected successfully!"
+: "Please enter a valid "+platform+" link.";
+
+}catch(e){
+message.innerText="Invalid video URL!";
+}
+}
+</script>
+
 </body>
 </html>
