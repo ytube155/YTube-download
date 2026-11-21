@@ -85,8 +85,7 @@ color:#94a3b8;
 
 
 
-<p id="downloadMessage"></p>
-</div>
+
 <div class="container">
 <h1>Video Downloader</h1>
 <p>Choose platform and paste your video link</p>
@@ -120,89 +119,86 @@ Only use videos you own or have permission to download.
 </footer>
 
 <script>
-let platform="YouTube";
 
-function choose(name,button){
-platform=name;
-document.querySelectorAll('.platforms button')
-.forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
-document.getElementById('message').innerText=
-name+" selected";
+let platform = "YouTube";
+
+function choose(name, button) {
+  platform = name;
+
+  document.querySelectorAll('.platforms button')
+    .forEach(b => b.classList.remove('active'));
+
+  button.classList.add('active');
+  document.getElementById('message').innerText =
+    name + " selected";
 }
 
-function checkLink(){
-let link=document.getElementById('url').value.trim();
-let message=document.getElementById('message');
+function checkLink() {
+  let link = document.getElementById('url').value.trim();
+  let message = document.getElementById('message');
 
-if(!link){
-message.innerText="Please paste a video link!";
-return;
+  if (!link) {
+    message.innerText = "Please paste a video link!";
+    return;
+  }
+
+  try {
+    let url = new URL(link);
+
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      throw new Error();
+    }
+
+    let host = url.hostname.toLowerCase();
+    let valid = false;
+
+    if (platform === "YouTube") {
+      valid = host === "youtube.com" ||
+        host.endsWith(".youtube.com") ||
+        host === "youtu.be";
+    } else if (platform === "Facebook") {
+      valid = host === "facebook.com" ||
+        host.endsWith(".facebook.com") ||
+        host === "fb.watch";
+    } else if (platform === "Instagram") {
+      valid = host === "instagram.com" ||
+        host.endsWith(".instagram.com");
+    }
+
+    message.innerText = valid
+      ? platform + " link detected successfully!"
+      : "Please enter a valid " + platform + " link.";
+
+  } catch (e) {
+    message.innerText = "Invalid video URL!";
+  }
 }
 
-try{
-let url=new URL(link);
-if(url.protocol!=="https:" && url.protocol!=="http:"){
-throw new Error();
+function downloadVideo() {
+  let file = document.getElementById("videoFile").files[0];
+
+  if (!file) {
+    alert("Please select an MP4 video first!");
+    return;
+  }
+
+  if (file.type !== "video/mp4") {
+    alert("Please select an MP4 video!");
+    return;
+  }
+
+  let videoURL = URL.createObjectURL(file);
+  let a = document.createElement("a");
+
+  a.href = videoURL;
+  a.download = file.name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(videoURL), 1000);
 }
 
-let host=url.hostname.toLowerCase();
-let valid=false;
-
-if(platform==="YouTube"){
-valid=host==="youtube.com" ||
-host.endsWith(".youtube.com") ||
-host==="youtu.be";
-}
-else if(platform==="Facebook"){
-valid=host==="facebook.com" ||
-host.endsWith(".facebook.com") ||
-host==="fb.watch";
-}
-else if(platform==="Instagram"){
-valid=host==="instagram.com" ||
-host.endsWith(".instagram.com");
-}
-
-message.innerText=valid
-? platform+" link detected successfully!"
-: "Please enter a valid "+platform+" link.";
-
-}catch(e){
-message.innerText="Invalid video URL!";
-}
-function downloadVideo(){
-let file = document.getElementById("videoFile").files[0];
-
-if(!file){
-alert("Please select an MP4 video first!");
-return;
-}
-
-let videoURL = URL.createObjectURL(file);
-let a = document.createElement("a");
-
-a.href = videoURL;
-a.download = file.name;
-document.body.appendChild(a);
-a.click();
-a.remove();
-
-URL.revokeObjectURL(videoURL);
-}
-let link=document.getElementById("url").value.trim();
-
-if(!link){
-alert("Please paste a video link!");
-return;
-}
-
-let a=document.createElement("a");
-a.href=link;
-a.download="my-video";
-a.target="_blank";
-a.click();
-}
 </script>
 
 </body>
