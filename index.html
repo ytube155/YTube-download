@@ -78,7 +78,14 @@ color:#94a3b8;
 <body>
 
 <header>▶ YTube Download</header>
-
+<div class="container">
+<h2>Download Your Own Video</h2>
+<input type="file" id="videoFile" accept="video/*">
+<button class="mainbtn" onclick="downloadVideo()">
+Download Video
+</button>
+<p id="downloadMessage"></p>
+</div>
 <div class="container">
 <h1>Video Downloader</h1>
 <p>Choose platform and paste your video link</p>
