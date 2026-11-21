@@ -181,6 +181,19 @@ message.innerText=valid
 }catch(e){
 message.innerText="Invalid video URL!";
 }
+} function downloadDirectVideo(){
+let link=document.getElementById("url").value.trim();
+
+if(!link){
+alert("Please paste a video link!");
+return;
+}
+
+let a=document.createElement("a");
+a.href=link;
+a.download="my-video";
+a.target="_blank";
+a.click();
 }
 </script>
 
