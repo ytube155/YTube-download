@@ -183,6 +183,9 @@ document.getElementById("videoFile").addEventListener("change", function() {
 
   if (!file) {
     info.innerText = "";
+    let preview = document.getElementById("videoPreview");
+preview.src = URL.createObjectURL(file);
+preview.style.display = "block";
     return;
   }
 
