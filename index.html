@@ -101,7 +101,11 @@ placeholder="Paste video link here">
 
 <p>Select your MP4 video:</p>
 <input type="file" id="videoFile" accept="video/mp4">
-<p id="fileInfo"></p>
+<p id="fileInfo"></p> 
+<video id="videoPreview"
+controls
+style="width:100%; max-width:400px; display:none; margin:15px auto; border-radius:10px;">
+</video>
 <button class="mainbtn" onclick="checkLink()">
 Check Link
 </button>
