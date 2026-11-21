@@ -177,15 +177,16 @@ function checkLink() {
     message.innerText = "Invalid video URL!";
   }
 }
+
 document.getElementById("videoFile").addEventListener("change", function() {
   let file = this.files[0];
   let info = document.getElementById("fileInfo");
+  let preview = document.getElementById("videoPreview");
 
   if (!file) {
     info.innerText = "";
-    let preview = document.getElementById("videoPreview");
-preview.src = URL.createObjectURL(file);
-preview.style.display = "block";
+    preview.removeAttribute("src");
+    preview.style.display = "none";
     return;
   }
 
@@ -193,7 +194,13 @@ preview.style.display = "block";
 
   info.innerText = "Video: " + file.name +
     " | Size: " + size + " MB";
+
+  let videoURL = URL.createObjectURL(file);
+  preview.src = videoURL;
+  preview.style.display = "block";
+  preview.load();
 });
+
 function downloadVideo() {
   let file = document.getElementById("videoFile").files[0];
 
