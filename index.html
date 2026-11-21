@@ -171,7 +171,25 @@ message.innerText=valid
 }catch(e){
 message.innerText="Invalid video URL!";
 }
-} function downloadDirectVideo(){
+function downloadVideo(){
+let file = document.getElementById("videoFile").files[0];
+
+if(!file){
+alert("Please select an MP4 video first!");
+return;
+}
+
+let videoURL = URL.createObjectURL(file);
+let a = document.createElement("a");
+
+a.href = videoURL;
+a.download = file.name;
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+URL.revokeObjectURL(videoURL);
+}
 let link=document.getElementById("url").value.trim();
 
 if(!link){
