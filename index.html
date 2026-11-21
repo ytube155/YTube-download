@@ -83,8 +83,7 @@ color:#94a3b8;
 <input type="file" id="videoFile" accept="video/*">
 <button class="mainbtn" onclick="downloadVideo()">
 Download Video
-</button> <button class="mainbtn" onclick="downloadDirectVideo()">
-Download Video
+</button> <button class="mainbtn" 
 </button>
 <p id="downloadMessage"></p>
 </div>
@@ -113,24 +112,7 @@ Check Link
 <br><br>
 Only use videos you own or have permission to download.
 </footer>
-function downloadVideo(){
-let file=document.getElementById("videoFile").files[0];
-let msg=document.getElementById("downloadMessage");
 
-if(!file){
-msg.innerText="Please select a video first!";
-return;
-}
-
-let url=URL.createObjectURL(file);
-let a=document.createElement("a");
-a.href=url;
-a.download=file.name;
-a.click();
-
-msg.innerText="Video download started!";
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
 <script>
 let platform="YouTube";
 
