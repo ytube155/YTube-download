@@ -265,6 +265,22 @@ async function testBackend() {
     alert("Backend connection failed!");
   }
 }
+  async function checkMP4Link() {
+  const url = document.getElementById("mp4Url").value.trim();
+  const message = document.getElementById("mp4Message");
+
+  if (!url) {
+    message.textContent = "Please paste an MP4 link.";
+    return;
+  }
+
+  if (!/^https?:\/\/.+\.mp4(?:\?.*)?$/i.test(url)) {
+    message.textContent = "Please enter a valid direct MP4 link.";
+    return;
+  }
+
+  message.textContent = "MP4 link format looks correct.";
+}
 </script>
 
 </body>
