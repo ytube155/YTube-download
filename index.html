@@ -145,6 +145,33 @@ Check MP4 Link
 <button class="mainbtn" onclick="downloadMP4Link()">
 Download MP4
 </button>
+  <button class="mainbtn" onclick="previewMP4Link()">
+Preview Video
+</button>
+
+<video id="mp4Preview" controls
+style="width:100%; max-width:500px; margin-top:15px; display:none;">
+</video>
+  function previewMP4Link() {
+  const url = document.getElementById("mp4Url").value.trim();
+  const preview = document.getElementById("mp4Preview");
+  const message = document.getElementById("mp4Message");
+
+  if (!url) {
+    message.textContent = "Please paste an MP4 link first.";
+    return;
+  }
+
+  if (!/^https?:\/\/.+\.mp4(?:\?.*)?$/i.test(url)) {
+    message.textContent = "Please enter a valid MP4 link.";
+    return;
+  }
+
+  preview.src = url;
+  preview.style.display = "block";
+  preview.load();
+  message.textContent = "Video preview is ready.";
+}
 <p id="mp4Message"></p>
   <button class="mainbtn" onclick="testBackend()">
 Test Backend
