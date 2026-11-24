@@ -279,7 +279,19 @@ async function testBackend() {
     return;
   }
 
-  message.textContent = "MP4 link format looks correct.";
+  message.textContent = "Checking video link...";
+
+  try {
+    const response = await fetch(
+      "/api/check?url=" + encodeURIComponent(url)
+    );
+
+    const data = await response.json();
+    message.textContent = data.message;
+
+  } catch (error) {
+    message.textContent = "Could not connect to server.";
+  }
 }
 </script>
 
