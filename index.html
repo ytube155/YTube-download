@@ -295,7 +295,7 @@ async function testBackend() {
     message.textContent = "Could not connect to server.";
   }
 }
-function downloadMP4Link() {
+async function downloadMP4Link() {
   const url = document.getElementById("mp4Url").value.trim();
 
   if (!url) {
@@ -308,11 +308,33 @@ function downloadMP4Link() {
     return;
   }
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "video.mp4";
-  a.target = "_blank";
-  a.click();
+  try {
+    const downloadUrl =
+      "/download/?url=" + encodeURIComponent(url);
+
+    const response = await fetch(downloadUrl);
+
+    if (!response.ok) {
+      alert("Download failed. Please check the video link.");
+      return;
+    }
+
+    const blob = await response.blob();
+    const fileUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = fileUrl;
+    a.download = "video.mp4";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(fileUrl);
+
+  } catch (error) {
+    alert("Download connection failed!");
+  }
+
 }
 </script>
 
