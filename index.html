@@ -340,10 +340,12 @@ async function downloadMP4Link() {
 
     URL.revokeObjectURL(fileUrl);
 
-  } catch (error) {
+    } catch (error) {
     alert("Download connection failed!");
   }
-function previewMP4Link() {
+}
+
+function previewMP4Link() 
   const url = document.getElementById("mp4Url").value.trim();
   const preview = document.getElementById("mp4Preview");
   const message = document.getElementById("mp4Message");
@@ -363,7 +365,7 @@ function previewMP4Link() {
   preview.load();
   message.textContent = "Video preview is ready.";
 }
-} 
+
 </script>
 
 </body>
