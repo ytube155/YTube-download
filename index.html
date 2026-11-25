@@ -194,6 +194,25 @@ color:#94a3b8;
   margin: 10px 0;
   overflow-wrap: anywhere;
 }
+  function showDownloadHistory() {
+  const history = JSON.parse(localStorage.getItem("downloadHistory") || "[]");
+  const list = document.getElementById("downloadHistory");
+
+  list.innerHTML = "";
+
+  if (history.length === 0) {
+    list.innerHTML = "<li>ابھی کوئی ڈاؤن لوڈ نہیں ہوا۔</li>";
+    return;
+  }
+
+  history.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.url + " — " + item.date;
+    list.appendChild(li);
+  });
+}
+
+showDownloadHistory();
 </style>
 </head>
 <body>
