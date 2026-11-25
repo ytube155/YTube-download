@@ -530,6 +530,7 @@ history.unshift({
 
 localStorage.setItem("downloadHistory", JSON.stringify(history.slice(0, 10)));
 showDownloadHistory();
+    document.getElementById("mp4Message").textContent = "✅ Download Completed Successfully!";
 
     setTimeout(() => URL.revokeObjectURL(fileUrl), 3000);
 
