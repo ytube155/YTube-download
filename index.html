@@ -540,6 +540,10 @@ showDownloadHistory();
 }
 
 function previewMP4Link() {
+  <div id="progressBox" style="display:none; margin:15px 0;">
+  <progress id="downloadProgress" value="0" max="100" style="width:100%; height:20px;"></progress>
+  <p id="progressText">0%</p>
+</div>
   const url = document.getElementById("mp4Url").value.trim();
   const preview = document.getElementById("mp4Preview");
   const message = document.getElementById("mp4Message");
