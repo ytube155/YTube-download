@@ -420,7 +420,7 @@ async function downloadMP4Link() {
     a.click();
     a.remove();
 
-    URL.revokeObjectURL(fileUrl);
+    setTimeout(() => URL.revokeObjectURL(fileUrl), 3000);
 
     } catch (error) {
     alert("Download connection failed!");
