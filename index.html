@@ -488,6 +488,7 @@ async function testBackend() {
   }
 }
 async function downloadMP4Link() {
+  document.getElementById("mp4Message").textContent = "⏳ Downloading video...";
   const url = document.getElementById("mp4Url").value.trim();
 
   if (!url) {
