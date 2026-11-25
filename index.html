@@ -448,6 +448,15 @@ async function downloadMP4Link() {
     document.body.appendChild(a);
     a.click();
     a.remove();
+    const history = JSON.parse(localStorage.getItem("downloadHistory") || "[]");
+
+history.unshift({
+  url: url,
+  date: new Date().toLocaleString()
+});
+
+localStorage.setItem("downloadHistory", JSON.stringify(history.slice(0, 10)));
+showDownloadHistory();
 
     setTimeout(() => URL.revokeObjectURL(fileUrl), 3000);
 
