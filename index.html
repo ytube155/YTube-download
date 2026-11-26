@@ -518,7 +518,28 @@ document.getElementById("progressText").textContent = "0%";
       alert("Download failed. Please check the video link.");
       return;
     }
+const total = Number(response.headers.get("content-length")) || 0;
+const reader = response.body.getReader();
+const chunks = [];
+let received = 0;
 
+while (true) {
+  const { done, value } = await reader.read();
+
+  if (done) break;
+
+  chunks.push(value);
+  received += value.length;
+
+  if (total > 0) {
+    const percent = Math.round((received / total) * 100);
+
+    document.getElementById("downloadProgress").value = percent;
+    document.getElementById("progressText").textContent = percent + "%";
+  }
+}
+
+const blob = new Blob(chunks, { type: "video/mp4" });
     
     document.getElementById("progressBox").style.display = "block";
 document.getElementById("downloadProgress").value = 100;
