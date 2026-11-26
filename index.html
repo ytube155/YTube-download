@@ -505,7 +505,9 @@ async function downloadMP4Link() {
     alert("Please enter a valid MP4 link!");
     return;
   }
-
+document.getElementById("progressBox").style.display = "block";
+document.getElementById("downloadProgress").value = 0;
+document.getElementById("progressText").textContent = "0%";
   try {
     const downloadUrl =
       "/download/?url=" + encodeURIComponent(url);
