@@ -305,6 +305,11 @@ Download MP4 Video
 </button>
 
 <div id="message"></div>
+  <div id="youtubeInfo" style="display:none; margin-top:20px;">
+  <img id="youtubeThumbnail" style="width:100%; max-width:350px; border-radius:12px;">
+  <h3 id="youtubeTitle"></h3>
+  <p id="youtubeAuthor"></p>
+</div>
 </div>
   <div class="container">
 <h2>🎬 Direct MP4 Video</h2>
@@ -366,7 +371,28 @@ function choose(name, button) {
   document.getElementById('message').innerText =
     name + " selected";
 }
+async function showYouTubeInfo(link) {
+  const box = document.getElementById("youtubeInfo");
+  box.style.display = "none";
 
+  try {
+    const response = await fetch(
+      "/api/youtube-info?url=" + encodeURIComponent(link)
+    );
+
+    const data = await response.json();
+
+    if (!data.success) return;
+
+    document.getElementById("youtubeThumbnail").src = data.thumbnail;
+    document.getElementById("youtubeTitle").textContent = data.title;
+    document.getElementById("youtubeAuthor").textContent = data.author;
+
+    box.style.display = "block";
+  } catch (error) {
+    console.log("YouTube info error:", error);
+  }
+}
 function checkLink() {
   let link = document.getElementById('url').value.trim();
   let message = document.getElementById('message');
@@ -400,9 +426,14 @@ function checkLink() {
     }
 
     message.innerText = valid
-      ? platform + " link detected successfully!"
-      : "Please enter a valid " + platform + " link.";
+  ? platform + " link detected successfully!"
+  : "Please enter a valid " + platform + " link.";
 
+if (valid && platform === "YouTube") {
+  showYouTubeInfo(link);
+} else {
+  document.getElementById("youtubeInfo").style.display = "none";
+}
   } catch (e) {
     message.innerText = "Invalid video URL!";
   }
