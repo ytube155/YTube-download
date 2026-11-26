@@ -520,6 +520,9 @@ document.getElementById("progressText").textContent = "0%";
     }
 
     const blob = await response.blob();
+    document.getElementById("progressBox").style.display = "block";
+document.getElementById("downloadProgress").value = 100;
+document.getElementById("progressText").textContent = "100%";
     
     const fileUrl = URL.createObjectURL(blob);
 
